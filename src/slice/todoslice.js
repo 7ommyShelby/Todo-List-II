@@ -1,7 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-const initialstate = [
-    { id: 1, text: "Hello World" }
-];
+import { stringify } from "postcss";
+
+
+
+// const initialstate = [
+//     { id: 1, text: "Hello World" }
+// ];
+
+const initialstate = JSON.parse(localStorage.getItem("todo")) || []
 
 let count = 2;
 
@@ -17,12 +23,14 @@ export const todoslice = createSlice({
             count++;
             state.push(newdata);
             console.log(newdata);
-
+            localStorage.setItem("todo" , JSON.stringify(state) )
         },
         remove: (state, action) => {
-            return state.filter((e) => {
+            const data = state.filter((e) => {
                 return e.id !== action.payload
             })
+            localStorage.setItem("todo", JSON.stringify(data))
+            return data
         }
     }
 
